@@ -28,5 +28,11 @@ export function sortujProdukty(lista, sposob) {
   if (sposob === "malejaco") {
     return kopia.sort((a, b) => b.cena - a.cena);
   }
+  if (sposob === "nazwa-az") {
+    return kopia.sort((a, b) => a.nazwa.localeCompare(b.nazwa, 'pl'));
+  }
+  if (sposob === "nazwa-za") {
+    return kopia.sort((a, b) => b.nazwa.localeCompare(a.nazwa, 'pl'));
+  }
   return kopia;
 }
