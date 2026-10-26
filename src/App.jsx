@@ -6,11 +6,13 @@ import {
   sortujProdukty 
 } from './controllers/productController.js';
 import './App.css';
+import Cart from './view/Cart.jsx';
 
 function App() {
   const [kategoria, setKategoria] = useState('wszystkie');
   const [szukaj, setSzukaj] = useState('');
   const [sortowanie, setSortowanie] = useState('domyslnie');
+  const [koszyk, setKoszyk] = useState([]);
 
   function wyczyscFiltry() {
     setSzukaj('');
@@ -21,6 +23,36 @@ function App() {
   const produktyKategorii = filtrujProdukty(kategoria);
   const produktyPoWyszukaniu = wyszukajProdukty(produktyKategorii, szukaj);
   const produkty = sortujProdukty(produktyPoWyszukaniu, sortowanie);
+
+  function dodajDoKoszyka(produkt) {
+    setKoszyk(poprzedniKoszyk => {
+      const znaleziony = poprzedniKoszyk.find(element => element.id === produkt.id);
+      if (znaleziony) {
+        return poprzedniKoszyk.map(element => 
+          element.id === produkt.id 
+            ? { ...element, ilosc: element.ilosc + 1 } 
+            : element
+        );
+      }
+      return [...poprzedniKoszyk, { ...produkt, ilosc: 1 }];
+    });
+  }
+
+  function zmienIlosc(id, zmiana) {
+    setKoszyk(poprzedniKoszyk => 
+      poprzedniKoszyk
+        .map(produkt => 
+          produkt.id === id 
+            ? { ...produkt, ilosc: produkt.ilosc + zmiana } 
+            : produkt
+        )
+        .filter(produkt => produkt.ilosc > 0)
+    );
+  }
+
+  function usunZKoszyka(id) {
+    setKoszyk(poprzedniKoszyk => poprzedniKoszyk.filter(produkt => produkt.id !== id));
+  }
 
   return (
     <div className="main-container">
@@ -62,7 +94,8 @@ function App() {
 
       <p className="counter">Liczba znalezionych produktów: {produkty.length}</p>
 
-      <ProductList produkty={produkty} />
+      <ProductList produkty={produkty} dodajDoKoszyka={dodajDoKoszyka} />
+      <Cart koszyk={koszyk} usunZKoszyka={usunZKoszyka} zmienIlosc={zmienIlosc} />
     </div>
   );
 }

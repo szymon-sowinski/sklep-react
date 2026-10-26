@@ -20,7 +20,7 @@ export const produkty = [
     nazwa: "Miód wielokwiatowy naturalny",
     cena: 32.00,
     staraCena: 38.00,
-    zdjecie: "https://images.unsplash.com/photo-1587049352847-4a222e784d38?w=400&auto=format&fit=crop",
+    zdjecie: "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=400&auto=format&fit=crop",
     kategoria: "naturalne"
   },
   {
