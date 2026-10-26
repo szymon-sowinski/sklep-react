@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ProductList from './view/ProductList.jsx';
 import { 
   filtrujProdukty, 
@@ -12,7 +12,15 @@ function App() {
   const [kategoria, setKategoria] = useState('wszystkie');
   const [szukaj, setSzukaj] = useState('');
   const [sortowanie, setSortowanie] = useState('domyslnie');
-  const [koszyk, setKoszyk] = useState([]);
+
+  const [koszyk, setKoszyk] = useState(() => {
+    const zapisanyKoszyk = localStorage.getItem('koszyk');
+    return zapisanyKoszyk ? JSON.parse(zapisanyKoszyk) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('koszyk', JSON.stringify(koszyk));
+  }, [koszyk]);
 
   function wyczyscFiltry() {
     setSzukaj('');
