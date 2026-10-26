@@ -80,3 +80,8 @@ export const produkty = [
     kategoria: "naturalne"
   }
 ];
+
+localStorage.setItem("Koszyk", JSON.stringify(produkty));
+
+const zapisane = JSON.parse(localStorage.getItem("Koszyk"));
+console.log(zapisane);
